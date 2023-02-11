@@ -20,7 +20,6 @@ public class GUI {
     public GUI() {
         frame = new JFrame("Drawing Program");
         var panel = new JPanel();
-        var fileMenu = new FileMenu(frame);
         var squareButton = new JButton("Square Tool");
         var circleButton = new JButton("Circle Tool");
         var lineButton = new JButton("Line Tool");
@@ -36,7 +35,6 @@ public class GUI {
         frame.setLayout(new BorderLayout());
         panel.setPreferredSize(new Dimension(1000, 50));
         frame.add(panel, BorderLayout.NORTH);
-        frame.setJMenuBar(fileMenu);
         panel.add(circleButton);
         panel.add(squareButton);
         panel.add(lineButton);
