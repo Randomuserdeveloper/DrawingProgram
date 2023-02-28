@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -13,6 +14,7 @@ public class GUI {
     private boolean quadCurveToolActive;
     private boolean cubicCurveToolActive;
     private boolean fillModeActive;
+    private boolean freeDrawActive;
     private int buttonClickedTimes;
     private Color color;
     private final List<Point> pointList = new ArrayList<>();
@@ -28,6 +30,7 @@ public class GUI {
         var eraseButton = new JButton("Erase");
         var fillButton = new JButton("Fill Mode On/Off");
         var colorButton = new JButton("Set Color");
+        var freeDrawButton = new JButton("Free Draw");
         frame.setSize(1000, 1000);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -40,6 +43,7 @@ public class GUI {
         panel.add(lineButton);
         panel.add(quadButton);
         panel.add(cubicButton);
+        panel.add(freeDrawButton);
         panel.add(fillButton);
         panel.add(colorButton);
         panel.add(eraseButton);
@@ -52,6 +56,7 @@ public class GUI {
             panel.add(lineButton);
             panel.add(quadButton);
             panel.add(cubicButton);
+            panel.add(freeDrawButton);
             panel.add(fillButton);
             panel.add(colorButton);
             panel.add(eraseButton);
@@ -66,6 +71,7 @@ public class GUI {
             lineToolActive = false;
             quadCurveToolActive = false;
             cubicCurveToolActive = false;
+            freeDrawActive = false;
             System.out.println("Circle Tool Is Active!");
         });
 
@@ -75,6 +81,7 @@ public class GUI {
             lineToolActive = false;
             quadCurveToolActive = false;
             cubicCurveToolActive = false;
+            freeDrawActive = false;
             System.out.println("Square Tool Is Active!");
         });
 
@@ -84,6 +91,7 @@ public class GUI {
             lineToolActive = true;
             quadCurveToolActive = false;
             cubicCurveToolActive = false;
+            freeDrawActive = false;
             System.out.println("Line Tool Is Active!");
         });
 
@@ -93,6 +101,7 @@ public class GUI {
             lineToolActive = false;
             quadCurveToolActive = true;
             cubicCurveToolActive = false;
+            freeDrawActive = false;
             System.out.println("Quadratic Curve Tool Is Active!");
         });
 
@@ -102,7 +111,18 @@ public class GUI {
             lineToolActive = false;
             quadCurveToolActive = false;
             cubicCurveToolActive = true;
+            freeDrawActive = false;
             System.out.println("Cubic Curve Tool Is Active!");
+        });
+
+        freeDrawButton.addActionListener(e -> {
+            circleToolActive = false;
+            squareToolActive = false;
+            lineToolActive = false;
+            quadCurveToolActive = false;
+            cubicCurveToolActive = false;
+            freeDrawActive = true;
+            System.out.println("Free Draw Tool Is Active!");
         });
 
         fillButton.addActionListener(e -> {
@@ -122,7 +142,7 @@ public class GUI {
             color = JColorChooser.showDialog(null, "Choose a color", Color.WHITE);
         });
 
-        class MousePressListener implements MouseListener {
+        class MousePressListener implements MouseListener, MouseMotionListener {
             public void mousePressed(MouseEvent event) {
             }
 
@@ -190,6 +210,22 @@ public class GUI {
 
             public void mouseExited(MouseEvent event) {
             }
+
+            @Override
+    public void mouseDragged(MouseEvent e) {
+        if (e.isMetaDown() && freeDrawActive) {
+            var circle = new Circle((int) pointList.get(0).getX() - 10, (int) pointList.get(0).getY() - 100, fillModeActive, color);
+            frame.add(circle);
+        }
+
+        repaint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
         }
 
         MousePressListener mouseListener = new MousePressListener();
