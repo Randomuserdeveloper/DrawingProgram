@@ -218,7 +218,7 @@ public class GUI {
             frame.add(circle);
         }
 
-        repaint();
+        frame.repaint();
     }
 
     @Override
